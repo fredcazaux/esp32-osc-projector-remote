@@ -13,9 +13,13 @@ ESP32-based remote for projector control over OSC (Open Sound Control) with:
 - `LICENSE` — MIT license
 
 ## Wiring
-- Serial2 TX -> projector RX (GPIO 17 defined as RS232_TX)
-- Serial2 RX -> projector TX (GPIO 16 defined as RS232_RX)
-- Use an appropriate RS232 level shifter / adapter if your device requires +/-12V RS232 signalling.
+- Serial2 TX (GPIO 17 defined as RS232_TX) -> Max3232 Module TTL RX
+- Max3232 Module RS232 TX -> projector RX (DB9 Connector Pin 2)
+- Serial2 RX (GPIO 16 defined as RS232_RX) -> Max3232 Module TTL TX
+- Max3232 Module RS232 RX -> projector TX (DB9 Connector Pin 3)
+- ESP GND -> Max3232 Module TTL-
+- ESP 3v3 -> Max3232 Module TTL+
+- Max3232 Module RS232- -> Projector GND (DB9 Connector Pin 5)
 
 ## Dependencies
 Install these libraries (Library Manager / PlatformIO):
