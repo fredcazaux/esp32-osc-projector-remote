@@ -27,6 +27,8 @@ const int OSC_PORT = 8000;
 #define RS232_TX 17
 #define RS232_RX 16
 
+#define BTN 0
+
 // DEBUG
 #define DEBUG 1
 
