@@ -17,11 +17,16 @@
 #include <OSCMessage.h>
 #include <Update.h>
 
+#include <mdns.h>
+
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
 
 // ---------- CONFIG ----------
 const int OSC_PORT = 8000;
+
+// mDNS hostname
+const char* MDNS_HOST = "esp32-projector";
 
 // UART RS232 pins
 #define RS232_TX 17
@@ -360,6 +365,17 @@ void setup() {
   Serial2.begin(9600, SERIAL_8N1, RS232_RX, RS232_TX);
 
   setupWiFi();
+
+  // Setup mDNS
+  if (!mdns_init()) {
+    DBGL("mDNS Init failed");
+  } else {
+    mdns_hostname_set(MDNS_HOST);
+    mdns_instance_name_set("ESP32 Projector Remote");
+    mdns_service_add(NULL, "_http", "_tcp", 80, NULL, 0);
+    DBGL(String("mDNS hostname set to: ") + MDNS_HOST + ".local");
+  }
+  
   setupAsyncWeb();
 
   if (!setupAsyncOSC()) {
